@@ -42,7 +42,7 @@ export default function AllUsers() {
             const user = AsyncStorage.getItem("hdfc-bank-token") && JSON.parse(await AsyncStorage.getItem("hdfc-bank-token")) || {}
 
             const data = {
-                "pageNumber": pageNumber,
+                "pageNumber": pageNumber || 1,
                 "limit": 15
             };
 
@@ -54,6 +54,7 @@ export default function AllUsers() {
             });
             if (response.data?.status) {
                 setAllUsers(response.data?.data?.data);
+                setPageNumber(pageNumber + 1)
             }
             console.log("get all user api response", response.data)
         }
@@ -69,7 +70,10 @@ export default function AllUsers() {
 
     return (
         <View>
-            <FlatList data={allUsers} numColumns={1}
+            <FlatList
+                data={allUsers}
+                numColumns={1}
+                onEndReached={() => getUsers()}
                 renderItem={({ item }) =>
                     <View style={styles.card}>
                         <TouchableOpacity style={styles.touch} onPress={() => { navigation.navigate('UserDetails', { item }) }} >

@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from '../../axios'
+import { CommonActions } from '@react-navigation/native';
 
 import { Formik } from 'formik';
 import * as yup from 'yup'
@@ -28,9 +29,25 @@ export default function LoginScreen({ navigation }) {
                 setLogin(false)
                 AsyncStorage.setItem("hdfc-bank-token", JSON.stringify(response.data?.data))
                 if (response.data?.data?.role === "admin") {
-                    navigation.navigate("AllUsers")
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'AllUsers' }, { name: 'CardDetails' },]
+                    })
                 } else if (response.data?.data?.role === "user") {
-                    navigation.navigate("CardDetails")
+                    navigation.navigate("Splash")
+                    // navigation.reset({
+                    //     index: 0,
+                    //     routes: [{ name: 'Splash' },x { name: 'CardDetails' },]
+                    // })
+                    // navigation.dispatch(
+                    //     CommonActions.reset({
+                    //         index: 0,
+                    //         routes: [
+                    //             { name: 'Splash' }, { name: 'CardDetails' }
+                    //         ],
+                    //     })
+                    // );
+
                 }
             }
 
@@ -38,6 +55,7 @@ export default function LoginScreen({ navigation }) {
         catch (err) {
             setLogin(false)
             Alert.alert(err.response?.data.message || "something wrong happend")
+            console.log("login err", err)
             console.log("login error", err.response?.data.message)
         }
     }
@@ -54,8 +72,9 @@ export default function LoginScreen({ navigation }) {
         >
             {
                 ({ handleChange, handleSubmit, values, touched, errors }) => (
+                    // <ImageBackground source={{uri:}} resizeMode="cover" style={styles.image}>
                     <ScrollView>
-                        <View style={{ height: Dimensions.get('window').height, flexDirection: 'column', justifyContent: 'center' }}>
+                        <View style={styles.container}>
 
                             <View style={styles.MainView}>
                                 <Text style={styles.Title}>Login</Text>
@@ -88,6 +107,7 @@ export default function LoginScreen({ navigation }) {
                             </View>
                         </View>
                     </ScrollView>
+                    // </ImageBackground>
                 )}
         </Formik>
     )
@@ -95,6 +115,10 @@ export default function LoginScreen({ navigation }) {
 
 
 const styles = StyleSheet.create({
+    container: {
+        height: Dimensions.get('window').height, flexDirection: 'column', justifyContent: 'center',
+
+    },
     MainView: {
         backgroundColor: rgbaColor(0, 0, 0, 0.70),
         borderRadius: 20,

