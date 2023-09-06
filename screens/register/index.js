@@ -10,8 +10,6 @@ import axios from '../../axios';
 
 const schema = yup.object().shape({
     firstName: yup.string().trim().required('This Field is Required').min(4, 'Must be 4 atleast Character long'),
-    lastName: yup.string().trim().min(4, 'Must be 4 atleast Character long'),
-    userName: yup.string().trim().required('This Field is Required').min(4, 'Must be 4 atleast Character long'),
     password: yup.string().trim().required('This Field is Required').min(6, 'password must be atleast character 6 long'),
     // .matches(/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/, 'Must have an Upercase, smallcase, digit and a special chacter'),
     confirmPassword: yup.string().trim().required('This Field is Required').oneOf([yup.ref('password')], 'Password and Confirm Password does not Matches'),
@@ -70,7 +68,7 @@ export default function SignupScreen() {
 
     return (
         <Formik
-            initialValues={{ firstName: "", lastName: "", userName: "", password: "", confirmPassword: "", email: "", mobile: "", otp: "" }}
+            initialValues={{ firstName: "", password: "", confirmPassword: "", email: "", mobile: "", otp: "" }}
             validationSchema={schema}
             onSubmit={(values, { resetForm }) => registerUser(values, resetForm)}
         >
@@ -88,20 +86,7 @@ export default function SignupScreen() {
                                 {(errors.firstName && touched.firstName) ?
                                     <Text style={styles.error} >{errors.firstName}</Text> : null
                                 }
-                                <TextInput style={styles.Input}
-                                    onChangeText={handleChange("lastName")}
-                                    value={values.lastName}
-                                    placeholder="Last Name" placeholderTextColor={"whitesmoke"} />
-                                {(errors.lastName && touched.lastName) ?
-                                    <Text style={styles.error} >{errors.lastName}</Text> : null
-                                }
-                                <TextInput style={styles.Input}
-                                    value={values.userName}
-                                    onChangeText={handleChange("userName")}
-                                    placeholder="Username" placeholderTextColor={'whitesmoke'} />
-                                {(errors.userName && touched.userName) ?
-                                    <Text style={styles.error} >{errors.userName}</Text> : null
-                                }
+
                                 <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                                     <View style={{ flex: 4 }}>
                                         <TextInput style={styles.Input} keyboardType={'phone-pad'}
@@ -184,7 +169,7 @@ const styles = StyleSheet.create({
     Input: {
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        color: rgbaColor(20, 247, 12),
+        color: "#fff",
     },
 
     SignIn: {

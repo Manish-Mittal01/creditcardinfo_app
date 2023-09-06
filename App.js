@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from './screens/login';
 import SignupScreen from './screens/register';
@@ -12,17 +12,29 @@ import SplashScreen from './screens/splash/splash';
 const Stack = createStackNavigator()
 
 const App = () => {
-  const [user, setUser] = useState({})
-  useEffect(() => {
-    const getUser = async () => {
-      const myUser = AsyncStorage.getItem("hdfc-bank-token") && JSON.parse(await AsyncStorage.getItem("hdfc-bank-token")) || {}
-      setUser(myUser)
-    }
-    getUser()
-  }, [])
-
-
-  console.log("user", user)
+  // const navigation = useNavigation()
+  // useEffect(() => {
+  //   if (AsyncStorage.getItem("hdfc-bank-token")) {
+  //     AsyncStorage.getItem("hdfc-bank-token")
+  //       .then(resp => {
+  //         console.log("resp", JSON.parse(resp).role)
+  //         if (JSON.parse(resp).role === "admin") {
+  //           navigation.reset({
+  //             index: 0,
+  //             routes: [{ name: 'AllUsers' }]
+  //           })
+  //         } else if (JSON.parse(resp).role === "user") {
+  //           navigation.reset({
+  //             index: 0,
+  //             routes: [{ name: 'Splash' }]
+  //           })
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log(error)
+  //       })
+  //   }
+  // }, [])
 
   return (
     <NavigationContainer>

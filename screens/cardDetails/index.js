@@ -3,11 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import { Formik } from 'formik';
 import * as yup from 'yup'
-import DateField from 'react-native-datefield';
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import CalendarPicker from 'react-native-calendar-picker';
 
 const schema = yup.object().shape({
     cardNumber: yup.string().trim().required('This Field is Required').min(4, 'Must be 4 atleast Character long'),
@@ -176,7 +173,7 @@ const styles = StyleSheet.create({
     Input: {
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        color: rgbaColor(20, 247, 12),
+        color: "#fff",
     },
     labelText: {
         marginTop: 16

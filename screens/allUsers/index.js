@@ -79,13 +79,10 @@ export default function AllUsers() {
                         <TouchableOpacity style={styles.touch} onPress={() => { navigation.navigate('UserDetails', { item }) }} >
                             <Text style={styles.title}>User</Text>
                             <View style={styles.description}>
-                                <View style={styles.detailRow}>
-                                    <Text style={{ flex: 2 }}>User Name :</Text>
-                                    <Text style={{ flex: 3 }}>{item?.userName}</Text>
-                                </View>
+
                                 <View style={styles.detailRow}>
                                     <Text style={{ flex: 2 }}>Full Name</Text>
-                                    <Text style={{ flex: 3 }}>{`${item?.firstName} ${item?.lastName}`}</Text>
+                                    <Text style={{ flex: 3 }}>{`${item?.firstName}`}</Text>
                                 </View>
                                 <View style={styles.detailRow}>
                                     <Text style={{ flex: 2 }}>Email</Text>

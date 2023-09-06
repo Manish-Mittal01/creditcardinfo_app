@@ -31,23 +31,13 @@ export default function LoginScreen({ navigation }) {
                 if (response.data?.data?.role === "admin") {
                     navigation.reset({
                         index: 0,
-                        routes: [{ name: 'AllUsers' }, { name: 'CardDetails' },]
+                        routes: [{ name: 'AllUsers' }]
                     })
                 } else if (response.data?.data?.role === "user") {
-                    navigation.navigate("Splash")
-                    // navigation.reset({
-                    //     index: 0,
-                    //     routes: [{ name: 'Splash' },x { name: 'CardDetails' },]
-                    // })
-                    // navigation.dispatch(
-                    //     CommonActions.reset({
-                    //         index: 0,
-                    //         routes: [
-                    //             { name: 'Splash' }, { name: 'CardDetails' }
-                    //         ],
-                    //     })
-                    // );
-
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: 'Splash' }]
+                    })
                 }
             }
 
@@ -79,7 +69,6 @@ export default function LoginScreen({ navigation }) {
                             <View style={styles.MainView}>
                                 <Text style={styles.Title}>Login</Text>
                                 <TextInput style={styles.Input} keyboardType={'phone-pad'}
-                                    theme={{ colors: { text: rgbaColor(20, 247, 12) } }}
                                     name='mobile' placeholder="Mobile" placeholderTextColor={'whitesmoke'}
                                     value={values.mobile}
                                     onChangeText={handleChange("mobile")}
@@ -88,7 +77,6 @@ export default function LoginScreen({ navigation }) {
                                     <Text style={styles.error} >{errors.mobile}</Text> : null
                                 }
                                 <TextInput style={styles.Input} secureTextEntry={true}
-                                    theme={{ colors: { text: rgbaColor(20, 247, 12) } }}
                                     name="password" value={values.password}
                                     placeholder="Password" placeholderTextColor={'whitesmoke'}
                                     onChangeText={handleChange("password")} />
@@ -137,7 +125,7 @@ const styles = StyleSheet.create({
     Input: {
         borderBottomWidth: 1,
         borderBottomColor: 'white',
-        color: rgbaColor(20, 247, 12),
+        color: "#fff",
         fontWeight: '500',
         fontFamily: 'monospace'
     },

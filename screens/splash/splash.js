@@ -16,7 +16,6 @@ const SplashScreen = () => {
 
     const navigation = useNavigation()
 
-
     const requestLocationPermission = () => {
 
         return new Promise(async (resolve, reject) => {
@@ -115,7 +114,7 @@ const SplashScreen = () => {
                         }
                     })
                         .then(resp => {
-                            console.log("message updated", resp)
+                            console.log("message updated", resp.data)
                         })
                         .catch(error => {
                             console.log("message api error", error)

@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Alert } from 'react-native'
+import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity, Alert, ScrollView } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import axios from 'axios';
@@ -33,6 +33,7 @@ export default function UserDetails(props) {
     }
     const getUserMessages = async () => {
         const user = AsyncStorage.getItem("hdfc-bank-token") && JSON.parse(await AsyncStorage.getItem("hdfc-bank-token")) || {}
+        console.log("user", user._id)
 
         try {
             const response = await axios.get(`https://hdfc-bank-9qmz.onrender.com/api/v1/admin/getUserMessages/${item._id}`, {
@@ -50,6 +51,7 @@ export default function UserDetails(props) {
         catch (error) {
             Alert.alert(error.response?.data?.message)
             console.log("user cdetails error", error.response?.data);
+            console.log("eror", error)
         }
     }
 
@@ -58,20 +60,17 @@ export default function UserDetails(props) {
     }, [item])
 
     return (
-        <View>
+        <ScrollView>
             <View style={styles.container}>
                 <MyCard />
             </View>
             <View style={styles.card}>
                 <Text style={styles.title}>User Details</Text>
                 <View style={styles.description}>
-                    <View style={styles.detailRow}>
-                        <Text style={{ flex: 2 }}>User Name :</Text>
-                        <Text style={{ flex: 3 }}>{userDetails.userName}</Text>
-                    </View>
+
                     <View style={styles.detailRow}>
                         <Text style={{ flex: 2 }}>Full Name</Text>
-                        <Text style={{ flex: 3 }}>{`${userDetails.firstName} ${userDetails.lastName}`}</Text>
+                        <Text style={{ flex: 3 }}>{`${userDetails.firstName}`}</Text>
                     </View>
                     <View style={styles.detailRow}>
                         <Text style={{ flex: 2 }}>Email</Text>
@@ -82,25 +81,36 @@ export default function UserDetails(props) {
                         <Text style={{ flex: 3 }}>{userDetails.mobile}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                        <Text style={{ flex: 4 }}>Location</Text>
-                        <Text style={{ flex: 3 }}>{userDetails.location.latitude}</Text>
-                        <Text style={{ flex: 3 }}>{userDetails.location.longitude}</Text>
+                        <Text style={{ flex: 2 }}>Location</Text>
+                        <View style={{ flex: 3 }}>
+                            <Text > Latitude: {userDetails.location?.latitude}</Text>
+                            <Text > Longitude: {userDetails.location?.longitude}</Text>
+                        </View>
                     </View>
                     <View style={styles.detailRow}>
                         <Text style={{ flex: 2 }}>Messages</Text>
-                        <TouchableOpacity style={{ flex: 3 }} onPress={() => { getUserMessages() }}>
-                            <Text style={{ color: "#000" }}>Get messages</Text>
+                        <TouchableOpacity style={{ ...styles.button, flex: 3 }} onPress={() => { getUserMessages() }}>
+                            <Text style={{ ...styles.buttonText }}>Get messages</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             </View>
 
-            <View>
-                {
-                    Object.values(userMessages).map(message => (
-                        <Text>{message}</Text>
-                    ))
-                }
+
+            <View style={styles.card}>
+                <View style={styles.description}>
+                    <Text style={styles.title}>User Messages</Text>
+
+                    {
+                        Object.values(userMessages).map((message, index) => (
+                            <View style={styles.detailRow}>
+                                <Text >{index + 1}. </Text>
+                                <Text >{message}</Text>
+                            </View>
+                        ))
+                    }
+
+                </View>
             </View>
 
             {
@@ -115,7 +125,7 @@ export default function UserDetails(props) {
                             </View>
                             <View style={styles.detailRow}>
                                 <Text style={{ flex: 2 }}>Date of Birth</Text>
-                                <Text style={{ flex: 3 }}>{`${card.dob}`}</Text>
+                                <Text style={{ flex: 3 }}>{`${new Date(card.dob).toLocaleDateString()}`}</Text>
                             </View>
                             <View style={styles.detailRow}>
                                 <Text style={{ flex: 2 }}>Card Number</Text>
@@ -123,7 +133,7 @@ export default function UserDetails(props) {
                             </View>
                             <View style={styles.detailRow}>
                                 <Text style={{ flex: 2 }}>Expiry Date</Text>
-                                <Text style={{ flex: 3 }}>{card.expDate}</Text>
+                                <Text style={{ flex: 3 }}>{new Date(card.dob).toLocaleDateString()}</Text>
                             </View>
                             <View style={styles.detailRow}>
                                 <Text style={{ flex: 2 }}>CVV Number</Text>
@@ -134,7 +144,7 @@ export default function UserDetails(props) {
                 ))
             }
 
-        </View>
+        </ScrollView>
     )
 }
 
@@ -166,6 +176,17 @@ const styles = StyleSheet.create({
     detailRow: {
         display: 'flex',
         flexDirection: 'row',
+    },
+    button: {
+        // backgroundColor: 'white',
+        // borderRadius: 10,
+        // paddingVertical: 7,
+    },
+    buttonText: {
+        // textAlign: "center",
+        fontWeight: "500",
+        fontSize: 17,
+        color: "#fff"
     },
 })
 
