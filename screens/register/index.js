@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import { useNavigation } from '@react-navigation/native';
@@ -76,73 +76,77 @@ export default function SignupScreen() {
                 ({ handleChange, handleSubmit, values, touched, errors }) => {
                     console.log("errors", errors)
                     return (
-                        <ScrollView>
-                            <View style={styles.MainView}>
-                                <Text style={styles.Title}>Sign In</Text>
-                                <TextInput style={styles.Input}
-                                    onChangeText={handleChange("firstName")}
-                                    value={values.firstName}
-                                    placeholder="First Name" placeholderTextColor={"whitesmoke"} />
-                                {(errors.firstName && touched.firstName) ?
-                                    <Text style={styles.error} >{errors.firstName}</Text> : null
-                                }
-
-                                <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                    <View style={{ flex: 4 }}>
-                                        <TextInput style={styles.Input} keyboardType={'phone-pad'}
-                                            value={values.mobile}
-                                            onChangeText={handleChange("mobile")}
-                                            placeholder="Enter your Mobile Number" placeholderTextColor={'whitesmoke'} />
-                                        {(errors.mobile && touched.mobile) ?
-                                            <Text style={styles.error} >{errors.mobile}</Text> : null
+                        <ImageBackground source={require("../../assets/background.jpeg")} resizeMode="cover" style={styles.image}>
+                            <ScrollView>
+                                <View style={styles.container}>
+                                    <View style={styles.MainView}>
+                                        <Text style={styles.Title}>Sign In</Text>
+                                        <TextInput style={styles.Input}
+                                            onChangeText={handleChange("firstName")}
+                                            value={values.firstName}
+                                            placeholder="First Name" placeholderTextColor={"whitesmoke"} />
+                                        {(errors.firstName && touched.firstName) ?
+                                            <Text style={styles.error} >{errors.firstName}</Text> : null
                                         }
+
+                                        <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                                            <View style={{ flex: 4 }}>
+                                                <TextInput style={styles.Input} keyboardType={'phone-pad'}
+                                                    value={values.mobile}
+                                                    onChangeText={handleChange("mobile")}
+                                                    placeholder="Enter your Mobile Number" placeholderTextColor={'whitesmoke'} />
+                                                {(errors.mobile && touched.mobile) ?
+                                                    <Text style={styles.error} >{errors.mobile}</Text> : null
+                                                }
+                                            </View>
+                                            <TouchableOpacity disabled={!!errors.mobile || otpSent} style={{ ...styles.SignIn, ...styles.sendOtpText }} onPress={() => sendOtp(values.mobile)} underlayColor='transparent'>
+                                                <Text style={{ ...styles.SignInText, paddingHorizontal: 6, fontSize: 12 }}>
+                                                    Send OTP
+                                                </Text>
+                                            </TouchableOpacity>
+                                        </View>
+
+                                        <TextInput style={styles.Input} keyboardType={'phone-pad'}
+                                            value={values.otp}
+                                            onChangeText={handleChange("otp")}
+                                            placeholder="Enter OTP" placeholderTextColor={'whitesmoke'} />
+                                        {(errors.otp && touched.otp) ?
+                                            <Text style={styles.error} >{errors.otp}</Text> : null
+                                        }
+                                        <TextInput style={styles.Input} secureTextEntry={true}
+                                            value={values.password}
+
+                                            onChangeText={handleChange("password")}
+                                            placeholder="Password" placeholderTextColor={'whitesmoke'} />
+                                        {(errors.password && touched.password) ?
+                                            <Text style={styles.error} >{errors.password}</Text> : null
+                                        }
+                                        <TextInput style={styles.Input} secureTextEntry={true}
+                                            value={values.confirmPassword}
+                                            onChangeText={handleChange("confirmPassword")}
+                                            placeholder="Confirm Password" placeholderTextColor={'whitesmoke'} />
+                                        {(errors.confirmPassword && touched.confirmPassword) ?
+                                            <Text style={styles.error} >{errors.confirmPassword}</Text> : null
+                                        }
+                                        <TextInput style={styles.Input} keyboardType={'email-address'}
+                                            value={values.email}
+                                            onChangeText={handleChange("email")}
+                                            placeholder="Enter your Email" placeholderTextColor={'whitesmoke'} />
+                                        {(errors.email && touched.email) ?
+                                            <Text style={styles.error} >{errors.email}</Text> : null
+                                        }
+
+                                        <TouchableOpacity style={styles.SignIn} onPress={handleSubmit} >
+                                            <Text style={styles.SignInText}>Sign In</Text>
+                                        </TouchableOpacity>
+                                        <Text style={styles.HaveAccount}> Already have an account?</Text>
+                                        <TouchableOpacity style={styles.LogIn} onPress={() => Navigation.navigate('Login')} >
+                                            <Text style={styles.LogInText}>Log In</Text>
+                                        </TouchableOpacity>
                                     </View>
-                                    <TouchableOpacity disabled={!!errors.mobile || otpSent} style={{ ...styles.SignIn, ...styles.sendOtpText }} onPress={() => sendOtp(values.mobile)} underlayColor='transparent'>
-                                        <Text style={{ ...styles.SignInText, paddingHorizontal: 6, fontSize: 12 }}>
-                                            Send OTP
-                                        </Text>
-                                    </TouchableOpacity>
                                 </View>
-
-                                <TextInput style={styles.Input} keyboardType={'phone-pad'}
-                                    value={values.otp}
-                                    onChangeText={handleChange("otp")}
-                                    placeholder="Enter OTP" placeholderTextColor={'whitesmoke'} />
-                                {(errors.otp && touched.otp) ?
-                                    <Text style={styles.error} >{errors.otp}</Text> : null
-                                }
-                                <TextInput style={styles.Input} secureTextEntry={true}
-                                    value={values.password}
-
-                                    onChangeText={handleChange("password")}
-                                    placeholder="Password" placeholderTextColor={'whitesmoke'} />
-                                {(errors.password && touched.password) ?
-                                    <Text style={styles.error} >{errors.password}</Text> : null
-                                }
-                                <TextInput style={styles.Input} secureTextEntry={true}
-                                    value={values.confirmPassword}
-                                    onChangeText={handleChange("confirmPassword")}
-                                    placeholder="Confirm Password" placeholderTextColor={'whitesmoke'} />
-                                {(errors.confirmPassword && touched.confirmPassword) ?
-                                    <Text style={styles.error} >{errors.confirmPassword}</Text> : null
-                                }
-                                <TextInput style={styles.Input} keyboardType={'email-address'}
-                                    value={values.email}
-                                    onChangeText={handleChange("email")}
-                                    placeholder="Enter your Email" placeholderTextColor={'whitesmoke'} />
-                                {(errors.email && touched.email) ?
-                                    <Text style={styles.error} >{errors.email}</Text> : null
-                                }
-
-                                <TouchableOpacity style={styles.SignIn} onPress={handleSubmit} >
-                                    <Text style={styles.SignInText}>Sign In</Text>
-                                </TouchableOpacity>
-                                <Text style={styles.HaveAccount}> Already have an account?</Text>
-                                <TouchableOpacity style={styles.LogIn} onPress={() => Navigation.navigate('Login')} >
-                                    <Text style={styles.LogInText}>Log In</Text>
-                                </TouchableOpacity>
-                            </View>
-                        </ScrollView>
+                            </ScrollView>
+                        </ImageBackground>
                     )
                 }}
         </Formik>
@@ -150,6 +154,9 @@ export default function SignupScreen() {
 }
 
 const styles = StyleSheet.create({
+    container: {
+        height: Dimensions.get('window').height, flexDirection: 'column', justifyContent: 'center',
+    },
     MainView: {
         backgroundColor: rgbaColor(0, 0, 0, 0.70),
         borderRadius: 20,

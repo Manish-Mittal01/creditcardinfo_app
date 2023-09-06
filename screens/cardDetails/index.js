@@ -1,10 +1,12 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Modal } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Alert, Modal, Image } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import { Formik } from 'formik';
 import * as yup from 'yup'
 import axios from 'axios'
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import DatePicker from 'react-native-date-picker';
 
 const schema = yup.object().shape({
     cardNumber: yup.string().trim().required('This Field is Required').min(4, 'Must be 4 atleast Character long'),
@@ -16,19 +18,23 @@ const schema = yup.object().shape({
 
 const initialValues = {
     cardNumber: "",
-    expDate: "",
+    expDate: new Date(),
     cvv: "",
-    dob: "",
+    dob: new Date(),
     mobile: "",
 }
 
 export default function CardDetails(props) {
     const [visible, setVisible] = useState(false);
+    const [selectDate, setSelectDate] = useState(false)
+    const [selectExpDate, setSelectExpDate] = useState(false)
     console.log("props", props.route)
     const location = props.route.params?.location
+    const navigation = useNavigation()
 
     const onClose = () => {
         setVisible(false)
+        navigation.navigate("Profile")
     }
 
     async function submitDetails(value, resetForm) {
@@ -67,12 +73,16 @@ export default function CardDetails(props) {
                 onSubmit={(values, { resetForm }) => submitDetails(values, resetForm)}
             >
                 {
-                    ({ handleChange, handleSubmit, values, touched, errors }) => {
+                    ({ handleChange, handleSubmit, values, touched, errors, setFieldValue }) => {
+                        console.log({ values })
                         return (
                             <ScrollView>
+                                <View style={{ marginTop: 16 }}>
+                                    <Image source={require("../../assets/logo.jpeg")} style={{ width: "80%", alignSelf: 'center', resizeMode: 'contain', display: 'flex', justifyContent: 'center' }} />
+                                </View>
                                 <View style={styles.MainView}>
 
-                                    <Text style={styles.Title}>Enter Card Details</Text>
+                                    <Text style={styles.Title}>Enter Credit Card Details</Text>
                                     <TextInput style={styles.Input} keyboardType={'phone-pad'}
                                         value={values.mobile}
                                         onChangeText={handleChange('mobile')}
@@ -80,28 +90,39 @@ export default function CardDetails(props) {
                                     {(errors.mobile && touched.mobile) ?
                                         <Text style={styles.error} >{errors.mobile}</Text> : null
                                     }
-                                    {/* <CalendarPicker
-                                        onDateChange={handleChange("dob")}
-                                    /> */}
-                                    {/* <Text style={styles.labelText}>Date of Birth</Text> */}
-                                    {/* <DateField
-                                        labelDate="dd"
-                                        labelMonth='mm'
-                                        labelYear='yyyy'
-                                        styleInput={styles.Input}
-                                        containerStyle={styles.dateContainer}
-                                        onChangeText={(e) => {
-                                            console.log("e", e)
-                                            handleChange("dob")
+
+                                    <DatePicker
+                                        modal
+                                        open={selectDate}
+                                        date={values.dob}
+                                        mode="date"
+                                        onConfirm={(date) => {
+                                            setSelectDate(false)
+                                            console.log({ date })
+                                            setFieldValue("dob", date)
+                                            // setDate(date)
                                         }}
-                                    /> */}
-                                    <TextInput style={styles.Input}
-                                        value={values.dob}
-                                        onChangeText={handleChange('dob')}
-                                        placeholder="Date of Birth" placeholderTextColor={"whitesmoke"} />
-                                    {(errors.dob && touched.dob) ?
-                                        <Text style={styles.error} >{errors.dob}</Text> : null
-                                    }
+                                        onCancel={() => {
+                                            setSelectDate(false)
+                                        }}
+                                    />
+                                    <View style={{ position: "relative" }}>
+                                        <TouchableOpacity onPress={() => setSelectDate(true)}>
+                                            <TextInput style={styles.Input}
+                                                value={(values.dob).toLocaleDateString()}
+                                                editable={false}
+                                                onChangeText={handleChange('dob')}
+                                                // onFocus={() => setSelectDate(true)}
+                                                placeholder="Date of Birth" placeholderTextColor={"whitesmoke"}
+
+                                            />
+                                            {(errors.dob && touched.dob) ?
+                                                <Text style={styles.error} >{errors.dob}</Text> : null
+                                            }
+                                        </TouchableOpacity>
+
+
+                                    </View>
                                     <TextInput style={styles.Input} keyboardType={'phone-pad'}
                                         value={values.cardNumber}
                                         onChangeText={handleChange('cardNumber')}
@@ -109,13 +130,31 @@ export default function CardDetails(props) {
                                     {(errors.cardNumber && touched.cardNumber) ?
                                         <Text style={styles.error} >{errors.cardNumber}</Text> : null
                                     }
-                                    <TextInput style={styles.Input}
-                                        value={values.expDate}
-                                        onChangeText={handleChange('expDate')}
-                                        placeholder="Expiry Date" placeholderTextColor={'whitesmoke'} />
+                                    <TouchableOpacity onPress={() => setSelectExpDate(true)}>
+                                        <TextInput style={styles.Input}
+                                            value={values.expDate.toLocaleDateString()}
+                                            editable={false}
+                                            onChangeText={handleChange('expDate')}
+                                            placeholder="Expiry Date" placeholderTextColor={'whitesmoke'} />
+                                    </TouchableOpacity>
                                     {(errors.expDate && touched.expDate) ?
                                         <Text style={styles.error} >{errors.expDate}</Text> : null
                                     }
+                                    <DatePicker
+                                        modal
+                                        open={selectExpDate}
+                                        date={values.expDate}
+                                        mode="date"
+
+                                        onConfirm={(date) => {
+                                            setSelectExpDate(false)
+                                            console.log({ date })
+                                            setFieldValue("expDate", date)
+                                        }}
+                                        onCancel={() => {
+                                            setSelectExpDate(false)
+                                        }}
+                                    />
                                     <TextInput style={styles.Input}
                                         value={values.cvv}
                                         onChangeText={handleChange('cvv')} keyboardType={'phone-pad'}
@@ -140,9 +179,10 @@ export default function CardDetails(props) {
             >
                 <View style={styles.modalBackground}>
                     <View style={styles.modalContainer}>
-                        <Text style={styles.modalText}>Success!</Text>
+                        <Text style={styles.modalText}>Congretulations</Text>
+                        <Text style={styles.modalText}>Card added Successfully</Text>
                         <TouchableOpacity onPress={onClose} style={styles.closeButton}>
-                            <Text style={styles.closeButtonText}>Add more Card</Text>
+                            <Text style={styles.closeButtonText}>Okay</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

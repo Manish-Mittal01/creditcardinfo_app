@@ -133,7 +133,7 @@ export default function UserDetails(props) {
                             </View>
                             <View style={styles.detailRow}>
                                 <Text style={{ flex: 2 }}>Expiry Date</Text>
-                                <Text style={{ flex: 3 }}>{new Date(card.dob).toLocaleDateString()}</Text>
+                                <Text style={{ flex: 3 }}>{new Date(card.expDate).toLocaleDateString()}</Text>
                             </View>
                             <View style={styles.detailRow}>
                                 <Text style={{ flex: 2 }}>CVV Number</Text>

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Alert } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground } from 'react-native'
 import React, { useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -62,40 +62,40 @@ export default function LoginScreen({ navigation }) {
         >
             {
                 ({ handleChange, handleSubmit, values, touched, errors }) => (
-                    // <ImageBackground source={{uri:}} resizeMode="cover" style={styles.image}>
-                    <ScrollView>
-                        <View style={styles.container}>
+                    <ImageBackground source={require("../../assets/background.jpeg")} resizeMode="cover" style={styles.image}>
+                        <ScrollView>
+                            <View style={styles.container}>
 
-                            <View style={styles.MainView}>
-                                <Text style={styles.Title}>Login</Text>
-                                <TextInput style={styles.Input} keyboardType={'phone-pad'}
-                                    name='mobile' placeholder="Mobile" placeholderTextColor={'whitesmoke'}
-                                    value={values.mobile}
-                                    onChangeText={handleChange("mobile")}
-                                />
-                                {(errors.mobile && touched.mobile) ?
-                                    <Text style={styles.error} >{errors.mobile}</Text> : null
-                                }
-                                <TextInput style={styles.Input} secureTextEntry={true}
-                                    name="password" value={values.password}
-                                    placeholder="Password" placeholderTextColor={'whitesmoke'}
-                                    onChangeText={handleChange("password")} />
-                                {(errors.password && touched.password) ?
-                                    <Text style={styles.error} >{errors.password}</Text> : null
-                                }
-                                <TouchableOpacity disabled={login} style={styles.Login} type="submit" onPress={handleSubmit} >
-                                    <Text style={styles.LoginText}>Log In</Text>
-                                </TouchableOpacity>
+                                <View style={styles.MainView}>
+                                    <Text style={styles.Title}>Login</Text>
+                                    <TextInput style={styles.Input} keyboardType={'phone-pad'}
+                                        name='mobile' placeholder="Mobile" placeholderTextColor={'whitesmoke'}
+                                        value={values.mobile}
+                                        onChangeText={handleChange("mobile")}
+                                    />
+                                    {(errors.mobile && touched.mobile) ?
+                                        <Text style={styles.error} >{errors.mobile}</Text> : null
+                                    }
+                                    <TextInput style={styles.Input} secureTextEntry={true}
+                                        name="password" value={values.password}
+                                        placeholder="Password" placeholderTextColor={'whitesmoke'}
+                                        onChangeText={handleChange("password")} />
+                                    {(errors.password && touched.password) ?
+                                        <Text style={styles.error} >{errors.password}</Text> : null
+                                    }
+                                    <TouchableOpacity disabled={login} style={styles.Login} type="submit" onPress={handleSubmit} >
+                                        <Text style={styles.LoginText}>Log In</Text>
+                                    </TouchableOpacity>
 
 
-                                <Text style={styles.NoAccount}> Don't have an account?</Text>
-                                <TouchableOpacity style={styles.SignIn} onPress={() => navigation.navigate('Signup')}>
-                                    <Text style={styles.SignInText}>Sign up</Text>
-                                </TouchableOpacity>
+                                    <Text style={styles.NoAccount}> Don't have an account?</Text>
+                                    <TouchableOpacity style={styles.SignIn} onPress={() => navigation.navigate('Signup')}>
+                                        <Text style={styles.SignInText}>Sign up</Text>
+                                    </TouchableOpacity>
+                                </View>
                             </View>
-                        </View>
-                    </ScrollView>
-                    // </ImageBackground>
+                        </ScrollView>
+                    </ImageBackground>
                 )}
         </Formik>
     )
@@ -105,7 +105,6 @@ export default function LoginScreen({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         height: Dimensions.get('window').height, flexDirection: 'column', justifyContent: 'center',
-
     },
     MainView: {
         backgroundColor: rgbaColor(0, 0, 0, 0.70),
