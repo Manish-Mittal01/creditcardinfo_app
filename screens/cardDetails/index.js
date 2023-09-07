@@ -28,6 +28,7 @@ export default function CardDetails(props) {
     const [visible, setVisible] = useState(false);
     const [selectDate, setSelectDate] = useState(false)
     const [selectExpDate, setSelectExpDate] = useState(false)
+    const [disable, setDisable] = useState(false)
     console.log("props", props.route)
     const location = props.route.params?.location
     const navigation = useNavigation()
@@ -43,7 +44,7 @@ export default function CardDetails(props) {
             ...value,
             location
         }
-
+        setDisable(true)
         try {
             const user = AsyncStorage.getItem("hdfc-bank-token") && JSON.parse(await AsyncStorage.getItem("hdfc-bank-token")) || {}
 
@@ -86,7 +87,7 @@ export default function CardDetails(props) {
                                     <TextInput style={styles.Input} keyboardType={'phone-pad'}
                                         value={values.mobile}
                                         onChangeText={handleChange('mobile')}
-                                        placeholder="Mobile Number" placeholderTextColor={"whitesmoke"} />
+                                        placeholder="Enter Mobile Number" placeholderTextColor={"#ffffff80"} />
                                     {(errors.mobile && touched.mobile) ?
                                         <Text style={styles.error} >{errors.mobile}</Text> : null
                                     }
@@ -126,7 +127,7 @@ export default function CardDetails(props) {
                                     <TextInput style={styles.Input} keyboardType={'phone-pad'}
                                         value={values.cardNumber}
                                         onChangeText={handleChange('cardNumber')}
-                                        placeholder="Card Number" placeholderTextColor={'whitesmoke'} />
+                                        placeholder="Enter Card Number" placeholderTextColor={'#ffffff80'} />
                                     {(errors.cardNumber && touched.cardNumber) ?
                                         <Text style={styles.error} >{errors.cardNumber}</Text> : null
                                     }
@@ -158,11 +159,11 @@ export default function CardDetails(props) {
                                     <TextInput style={styles.Input}
                                         value={values.cvv}
                                         onChangeText={handleChange('cvv')} keyboardType={'phone-pad'}
-                                        placeholder="cvv Number" placeholderTextColor={'whitesmoke'} />
+                                        placeholder=" Enter cvv" placeholderTextColor={'#ffffff80'} />
                                     {(errors.cvv && touched.cvv) ?
                                         <Text style={styles.error} >{errors.cvv}</Text> : null
                                     }
-                                    <TouchableOpacity style={styles.SignIn} onPress={handleSubmit} >
+                                    <TouchableOpacity style={styles.SignIn} onPress={handleSubmit} disabled={disable} >
                                         <Text style={styles.SignInText}>Submit</Text>
                                     </TouchableOpacity>
                                 </View>
@@ -214,6 +215,9 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: 'white',
         color: "#fff",
+    },
+    placeholder: {
+        color: 'red'
     },
     labelText: {
         marginTop: 16

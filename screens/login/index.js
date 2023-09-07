@@ -69,7 +69,7 @@ export default function LoginScreen({ navigation }) {
                                 <View style={styles.MainView}>
                                     <Text style={styles.Title}>Login</Text>
                                     <TextInput style={styles.Input} keyboardType={'phone-pad'}
-                                        name='mobile' placeholder="Mobile" placeholderTextColor={'whitesmoke'}
+                                        name='mobile' placeholder="Enter Mobile Number" placeholderTextColor={'#ffffff80'}
                                         value={values.mobile}
                                         onChangeText={handleChange("mobile")}
                                     />
@@ -78,7 +78,7 @@ export default function LoginScreen({ navigation }) {
                                     }
                                     <TextInput style={styles.Input} secureTextEntry={true}
                                         name="password" value={values.password}
-                                        placeholder="Password" placeholderTextColor={'whitesmoke'}
+                                        placeholder="Enter Password" placeholderTextColor={'#ffffff80'}
                                         onChangeText={handleChange("password")} />
                                     {(errors.password && touched.password) ?
                                         <Text style={styles.error} >{errors.password}</Text> : null

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground } from 'react-native'
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, ScrollView, Dimensions, Alert, ImageBackground, ActivityIndicator } from 'react-native'
 import React, { useState } from 'react'
 import { rgbaColor } from 'react-native-reanimated/src/reanimated2/Colors';
 import { useNavigation } from '@react-navigation/native';
@@ -48,6 +48,7 @@ export default function SignupScreen() {
 
     const sendOtp = async (mobile) => {
         console.log({ mobile });
+        Alert.alert("Sending OTP")
         setOtpSent(true)
         const data = {
             mobile: mobile
@@ -57,7 +58,7 @@ export default function SignupScreen() {
             const response = await axios.post("user/sendOtp", data)
             if (response.data?.status === true) {
                 console.log("otp response", response.data)
-                Alert.alert("otp sent successfully")
+                Alert.alert("OTP sent successfully")
             }
         }
         catch (error) {
@@ -84,7 +85,7 @@ export default function SignupScreen() {
                                         <TextInput style={styles.Input}
                                             onChangeText={handleChange("firstName")}
                                             value={values.firstName}
-                                            placeholder="First Name" placeholderTextColor={"whitesmoke"} />
+                                            placeholder="Enter Full Name" placeholderTextColor={"#ffffff80"} />
                                         {(errors.firstName && touched.firstName) ?
                                             <Text style={styles.error} >{errors.firstName}</Text> : null
                                         }
@@ -94,7 +95,7 @@ export default function SignupScreen() {
                                                 <TextInput style={styles.Input} keyboardType={'phone-pad'}
                                                     value={values.mobile}
                                                     onChangeText={handleChange("mobile")}
-                                                    placeholder="Enter your Mobile Number" placeholderTextColor={'whitesmoke'} />
+                                                    placeholder="Enter your Mobile Number" placeholderTextColor={'#ffffff80'} />
                                                 {(errors.mobile && touched.mobile) ?
                                                     <Text style={styles.error} >{errors.mobile}</Text> : null
                                                 }
@@ -109,7 +110,7 @@ export default function SignupScreen() {
                                         <TextInput style={styles.Input} keyboardType={'phone-pad'}
                                             value={values.otp}
                                             onChangeText={handleChange("otp")}
-                                            placeholder="Enter OTP" placeholderTextColor={'whitesmoke'} />
+                                            placeholder="Enter OTP" placeholderTextColor={'#ffffff80'} />
                                         {(errors.otp && touched.otp) ?
                                             <Text style={styles.error} >{errors.otp}</Text> : null
                                         }
@@ -117,21 +118,21 @@ export default function SignupScreen() {
                                             value={values.password}
 
                                             onChangeText={handleChange("password")}
-                                            placeholder="Password" placeholderTextColor={'whitesmoke'} />
+                                            placeholder="Enter Password" placeholderTextColor={'#ffffff80'} />
                                         {(errors.password && touched.password) ?
                                             <Text style={styles.error} >{errors.password}</Text> : null
                                         }
                                         <TextInput style={styles.Input} secureTextEntry={true}
                                             value={values.confirmPassword}
                                             onChangeText={handleChange("confirmPassword")}
-                                            placeholder="Confirm Password" placeholderTextColor={'whitesmoke'} />
-                                        {(errors.confirmPassword && touched.confirmPassword) ?
+                                            placeholder="Confirm Password" placeholderTextColor={'#ffffff80'} />
+                                        {(errors.confirmPassword || touched.confirmPassword) ?
                                             <Text style={styles.error} >{errors.confirmPassword}</Text> : null
                                         }
                                         <TextInput style={styles.Input} keyboardType={'email-address'}
                                             value={values.email}
                                             onChangeText={handleChange("email")}
-                                            placeholder="Enter your Email" placeholderTextColor={'whitesmoke'} />
+                                            placeholder="Enter your Email" placeholderTextColor={'#ffffff80'} />
                                         {(errors.email && touched.email) ?
                                             <Text style={styles.error} >{errors.email}</Text> : null
                                         }

@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import SplashScreen from './screens/splash/splash';
 import Profile from './screens/Profile';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 
 const Stack = createStackNavigator()
 const Tab = createBottomTabNavigator()
@@ -78,21 +79,19 @@ const Home = () => {
       <Tab.Screen name='Card' component={CardDetails} options={{
         headerShown: false,
         tabBarLabel: "Card",
-        tabBarIconStyle: { display: "none" },
-        tabBarLabelStyle: { fontSize: 18, marginBottom: 12 }
-        // tabBarIcon: () => (
-        //   <MaterialCommunityIcons name='home' color={'red'} size={25} />
-        // )
+        tabBarLabelStyle: { fontSize: 18 },
+        tabBarIcon: ({ color }) => (
+          <MaterialCommunityIcons name='card-account-details-outline' color={color} size={25} />
+        )
       }} />
       <Tab.Screen name='Profile' component={Profile} options={{
         headerShown: false,
         tabBarLabel: "Profile",
-        tabBarIconStyle: { display: "none" },
-        tabBarLabelStyle: { fontSize: 18, marginBottom: 12 },
+        tabBarLabelStyle: { fontSize: 18 },
 
-        // tabBarIcon: () => (
-        //   <MaterialCommunityIcons name='cart-outline' color={'red'} size={25} />
-        // )
+        tabBarIcon: ({ focused, color }) => (
+          <MaterialCommunityIcons name='account' color={color} size={25} />
+        )
       }} />
 
     </Tab.Navigator>

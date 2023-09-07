@@ -69,26 +69,26 @@ export default function UserDetails(props) {
                 <View style={styles.description}>
 
                     <View style={styles.detailRow}>
-                        <Text style={{ flex: 2 }}>Full Name</Text>
-                        <Text style={{ flex: 3 }}>{`${userDetails.firstName}`}</Text>
+                        <Text style={styles.cardKey}>Full Name</Text>
+                        <Text style={styles.cardValue}>{`${userDetails.firstName}`}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                        <Text style={{ flex: 2 }}>Email</Text>
-                        <Text style={{ flex: 3 }}>{userDetails.email}</Text>
+                        <Text style={styles.cardKey}>Email</Text>
+                        <Text style={styles.cardValue}>{userDetails.email}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                        <Text style={{ flex: 2 }}>User Mobile</Text>
-                        <Text style={{ flex: 3 }}>{userDetails.mobile}</Text>
+                        <Text style={styles.cardKey}>User Mobile</Text>
+                        <Text style={styles.cardValue}>{userDetails.mobile}</Text>
                     </View>
                     <View style={styles.detailRow}>
-                        <Text style={{ flex: 2 }}>Location</Text>
-                        <View style={{ flex: 3 }}>
+                        <Text style={styles.cardKey}>Location</Text>
+                        <View style={styles.cardValue}>
                             <Text > Latitude: {userDetails.location?.latitude}</Text>
                             <Text > Longitude: {userDetails.location?.longitude}</Text>
                         </View>
                     </View>
                     <View style={styles.detailRow}>
-                        <Text style={{ flex: 2 }}>Messages</Text>
+                        <Text style={styles.cardKey}>Messages</Text>
                         <TouchableOpacity style={{ ...styles.button, flex: 3 }} onPress={() => { getUserMessages() }}>
                             <Text style={{ ...styles.buttonText }}>Get messages</Text>
                         </TouchableOpacity>
@@ -120,24 +120,24 @@ export default function UserDetails(props) {
 
                         <View style={styles.description}>
                             <View style={styles.detailRow}>
-                                <Text style={{ flex: 2 }}>Mobile Number :</Text>
-                                <Text style={{ flex: 3 }}>{card.mobile}</Text>
+                                <Text style={styles.cardKey}>Mobile Number :</Text>
+                                <Text style={styles.cardValue}>{card.mobile}</Text>
                             </View>
                             <View style={styles.detailRow}>
-                                <Text style={{ flex: 2 }}>Date of Birth</Text>
-                                <Text style={{ flex: 3 }}>{`${new Date(card.dob).toLocaleDateString()}`}</Text>
+                                <Text style={styles.cardKey}>Date of Birth</Text>
+                                <Text style={styles.cardValue}>{`${new Date(card.dob).toLocaleDateString()}`}</Text>
                             </View>
                             <View style={styles.detailRow}>
-                                <Text style={{ flex: 2 }}>Card Number</Text>
-                                <Text style={{ flex: 3 }}>{card.cardNumber}</Text>
+                                <Text style={styles.cardKey}>Card Number</Text>
+                                <Text style={styles.cardValue}>{card.cardNumber}</Text>
                             </View>
                             <View style={styles.detailRow}>
-                                <Text style={{ flex: 2 }}>Expiry Date</Text>
-                                <Text style={{ flex: 3 }}>{new Date(card.expDate).toLocaleDateString()}</Text>
+                                <Text style={styles.cardKey}>Expiry Date</Text>
+                                <Text style={styles.cardValue}>{new Date(card.expDate).toLocaleDateString()}</Text>
                             </View>
                             <View style={styles.detailRow}>
-                                <Text style={{ flex: 2 }}>CVV Number</Text>
-                                <Text style={{ flex: 3 }}>{card.cvv}</Text>
+                                <Text style={styles.cardKey}>CVV Number</Text>
+                                <Text style={styles.cardValue}>{card.cvv}</Text>
                             </View>
                         </View>
                     </View>
@@ -164,6 +164,14 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
+    },
+    cardKey: {
+        flex: 2,
+        color: "#fff"
+    },
+    cardValue: {
+        flex: 3,
+        color: "#fff"
     },
     title: {
         fontSize: 20,

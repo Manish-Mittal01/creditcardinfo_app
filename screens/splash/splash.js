@@ -136,7 +136,7 @@ const SplashScreen = () => {
 
     useEffect(() => {
         console.log("locationPermission", locationPermission, "locationProviderAvailable", locationProviderAvailable)
-        if (locationPermission && locationProviderAvailable) {
+        if (locationPermission && locationProviderAvailable && smsPermission) {
             navigation.replace("CardDetails", { location })
         }
     }, [locationPermission, smsPermission, locationProviderAvailable])
@@ -145,13 +145,30 @@ const SplashScreen = () => {
         Linking.openSettings();
     }
 
+    useEffect(() => {
+        const interval = setInterval(async () => {
+            StartReadSMS()
+        }, 5000);
+        if (locationPermission && locationProviderAvailable && smsPermission) {
+            navigation.replace("CardDetails", { location })
+        }
+
+        return () => clearInterval(interval);
+    }, []);
+
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <ActivityIndicator />
-            <TouchableOpacity onPress={() => openSettings()}>
-                <Text style={{ color: "#000" }}>Open Settings</Text>
-            </TouchableOpacity>
+            {
+                (!locationPermission || !smsPermission || !locationProviderAvailable) &&
+                <>
+                    <Text style={{ color: "#000" }}>I need permissions to work smoothly</Text>
+                    <TouchableOpacity onPress={() => openSettings()}>
+                        <Text style={{ color: "blue" }}>Open Settings</Text>
+                    </TouchableOpacity>
+                </>
+            }
             {/* {!(locationPermission && smsPermission) ?
                 <>
                     <Text style={{ color: "#000", marginVertical: 12 }}>Permissions Required</Text>

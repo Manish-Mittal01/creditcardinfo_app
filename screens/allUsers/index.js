@@ -81,16 +81,16 @@ export default function AllUsers() {
                             <View style={styles.description}>
 
                                 <View style={styles.detailRow}>
-                                    <Text style={{ flex: 2 }}>Full Name</Text>
-                                    <Text style={{ flex: 3 }}>{`${item?.firstName}`}</Text>
+                                    <Text style={styles.cardKey}>Full Name</Text>
+                                    <Text style={styles.cardValue}>{`${item?.firstName}`}</Text>
                                 </View>
                                 <View style={styles.detailRow}>
-                                    <Text style={{ flex: 2 }}>Email</Text>
-                                    <Text style={{ flex: 3 }}>{item?.email}</Text>
+                                    <Text style={styles.cardKey}>Email</Text>
+                                    <Text style={styles.cardValue}>{item?.email}</Text>
                                 </View>
                                 <View style={styles.detailRow}>
-                                    <Text style={{ flex: 2 }}>Mobile</Text>
-                                    <Text style={{ flex: 3 }}>{item?.mobile}</Text>
+                                    <Text style={styles.cardKey}>Mobile</Text>
+                                    <Text style={styles.cardValue}>{item?.mobile}</Text>
                                 </View>
                             </View>
 
@@ -113,6 +113,14 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.3,
         shadowRadius: 4,
+    },
+    cardKey: {
+        flex: 2,
+        color: "#fff"
+    },
+    cardValue: {
+        flex: 3,
+        color: "#fff"
     },
     title: {
         fontSize: 20,
